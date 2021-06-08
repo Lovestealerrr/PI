@@ -132,10 +132,10 @@ void merge (LInt *r, LInt a, LInt b){
         s[i]=b->valor;
     }
     int k[length(a)+length(b)]=ordenaArray(k,v,s,length(a),length(b));
-    (*r)->valor=k[0];
-    for (int i = 1; i<length(a)+length(b); i++)
+    (*r)=k[0];
+    for (int i = 1; i<length(a)+length(b); i++, r=&((*r)->prox))
     {
-        (*r)->prox=k[i];
+        *r=k[i];
     }
 }
 
@@ -186,7 +186,7 @@ void splitQS (LInt l, int x, LInt *mx, LInt *Mx){
 
 //9
 
-LLig parteAmeio (LLig *l){
+LInt parteAmeio (LInt *l){
     int k=length(l)/2;
     LInt aux=malloc(sizeof(struct lligada));
     while (l && k>0)
@@ -201,3 +201,298 @@ LLig parteAmeio (LLig *l){
 
 //10
 
+int removeAll (LInt *l, int x){
+    int conta=0;
+    LInt ant=*l;
+    while (*l && (*l)!=x)
+    {
+        ant=*l;
+        l=&((*l)->prox);
+    }
+    conta++;
+    if (*l)
+    {
+        *l=(*l)->prox;
+        ant->prox=*l;
+    }
+    
+    return conta;
+}
+
+//outra tentativa
+
+int removeAll (LInt *l, int x){
+    int conta=0;
+    LInt ant;
+    while (*l)
+    {
+        if ((*l)->valor==x)
+        {
+            ant=*l;
+            (*l)=(*l)->prox;
+            free(ant);
+            conta++;
+        }
+        l=&((*l)->prox);
+    }
+    return conta;
+}
+
+//11
+
+int removeDups (LInt *l){
+    int conta=0;
+    LInt ant=*l;
+    LInt delete;
+    if (ant==NULL) return;
+
+    while (*l)
+    {
+        ant=*l;
+        l=&((*l)->prox);
+    }while (*l)
+    {
+        if ((*l)->valor==ant->valor)
+        {
+            delete=*l;
+            (*l)=(*l)->prox;
+            free(delete);
+            conta++;
+        }else{
+            l=&((*l)->prox);
+        }
+    }
+    l=&ant;
+    l=&((*l)->prox);
+    return conta;
+}
+
+//12
+
+int removeMaiorL (LInt *l){
+    LInt ant;
+    int res;
+    while (*l)
+    {
+        ant=*l;
+        l=&((*l)->prox);
+        if (ant->valor>(*l)->valor)
+        {
+            res=ant->valor;
+        }
+        
+    }
+    
+    return res;
+}
+
+//13
+
+void init (LInt *l){
+    LInt delete;
+    while (*l)
+    {
+        if ((*l)->prox==NULL)
+        {
+            delete=*l;
+            free delete;
+            ant->prox==NULL;
+        }
+        l=&((*l)->prox);
+    }
+}
+
+//14
+
+void appendL (LInt *l, int x){
+    LInt delete;
+    delete->valor=x;
+    while (*l)
+    {
+        if ((*l)->prox==NULL)
+        {
+            (*l)->prox=delete;
+            delete->prox=NULL;
+        }
+        l=&((*l)->prox);
+    }
+}
+
+//15
+
+void concatL (LInt *a, LInt b){
+    while ((*a)->prox)
+    {
+        a=&((*a)->prox);
+    }
+    *a=b;
+}
+
+//16
+
+LInt cloneL (LInt l){
+    LInt nova;
+    LInt *sitio=&nova;
+    while (l)
+    {
+        *sitio=malloc(sizeof(struct lligada));
+        (*sitio)->valor=l->valor;
+        l=l->prox;
+        sitio=&((*sitio)->prox);
+    }
+    *sitio=NULL;
+    return nova;
+}
+
+
+//17
+
+LInt cloneRev (LInt l){
+    LInt nova=cloneL(l);
+    nova=reverseL(l);
+    return nova;
+}
+
+//18
+
+int maximo (LInt l){
+    int r;
+    LInt ant;
+    while (l)
+    {
+        ant=l;
+        l=l->prox;
+        if (ant->valor>l->valor)
+        {
+            r=ant->valor;
+        }
+    }
+    return r;
+}
+
+//19
+
+int take (int n, LInt *l){
+    int r = (n>length(&l)) ? n : length(&l);
+    LInt ant;
+    while (*l&&n>0)
+    {
+        n--;
+        l=&((*l)->prox);
+    }while (*l)
+    {
+        ant=*l;
+        l=&((*l)->prox);
+        free(ant);
+    }
+    return r;
+}
+
+//20
+
+int drop (int n, LInt *l){
+    int r=(n>length(&l)) ? length(&l) : n;
+    LInt ant;
+    while (*l&&n>0)
+    {
+        n--;
+        ant=*l:
+        l=&((*l)->prox);
+        free(ant);
+    }
+    return r;   
+}
+
+//21
+
+LInt Nforward (LInt l, int N){
+    while (l && N>0)
+    {
+        N--;
+        l=l->prox;
+    }
+    
+    return l;
+}
+
+//22
+
+int listToArray (LInt l, int v[], int N){
+    for (int i = 0; i < N; i++,l=l->prox)
+    {
+        v[i]=l->valor;
+    }
+    return i);
+}
+
+//23
+
+LInt arrayToList (int v[], int N){
+    LInt res=malloc(sizeof(struct lligada));
+    LInt *sitio=&res;
+    for (int i = 0; i < N; i++)
+    {
+        (*sitio)->valor=v[i];
+        sitio=&((*sitio)->prox);
+    }
+    *sitio=NULL;
+    return res;
+}
+
+//24
+
+LInt somasAcL (LInt l){
+    LInt nova=malloc(sizeof(struct lligada));
+    LInt *sitio=&nova;
+    int acc=0;
+    while (l)
+    {
+        acc+=l->valor;
+        l=l->prox;
+        (*sitio)->valor=acc;
+        sitio=&((*sitio)->prox);
+    }
+    *sitio=NULL;
+    return nova;
+}
+
+//25
+
+void remreps (LInt l){
+    LInt ant, delete;
+    LInt *sitio=&l;
+    while (*sitio)
+    {
+        ant=*sitio;
+        sitio=&((*sitio)->prox);
+        if (ant->valor==(*sitio)->valor)
+        {
+            delete = *sitio;
+            ant->prox=(*sitio)->prox;
+            free(delete);
+        }
+        
+    }
+    *sitio=NULL;
+}
+
+//26
+
+LInt rotateL (LInt l){
+    if (l==NULL||l->prox==NULL) return l;
+    LInt *sitio=&l;
+    LInt first = *sitio;
+    while (*sitio)
+    {
+        sitio=&((*sitio)->prox);
+    }
+    *sitio=first;
+    (*sitio)->prox=NULL;
+    return l;
+}
+
+//27
+
+LInt parte (LInt l){
+    
+}
